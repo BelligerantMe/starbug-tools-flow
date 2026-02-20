@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://starbug:8099',
+        target: 'http://192.168.100.2:8099',
         changeOrigin: true,
       },
     },
