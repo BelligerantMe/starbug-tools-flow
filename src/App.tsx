@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -13,6 +13,7 @@ import '@xyflow/react/dist/style.css';
 
 import ToolNode from './nodes/ToolNode';
 import ToolDetailPanel from './panels/ToolDetailPanel';
+import WorkflowPanel from './panels/WorkflowPanel';
 import SearchBox from './components/SearchBox';
 import { useFlowStore } from './store/flowStore';
 import { FLOW_COLORS } from './data/types';
@@ -25,6 +26,8 @@ const nodeTypes: NodeTypes = {
 };
 
 function Flow() {
+  const [isWorkflowPanelOpen, setIsWorkflowPanelOpen] = useState(false);
+
   const {
     nodes,
     edges,
@@ -130,6 +133,14 @@ function Flow() {
         <Panel position="top-right" className="controls-panel">
           <SearchBox />
           <button
+            className="workflow-btn"
+            onClick={() => setIsWorkflowPanelOpen(true)}
+            title="Open workflow builder"
+          >
+            <span className="workflow-btn-icon">⚡</span>
+            Workflows
+          </button>
+          <button
             className="btn btn-secondary"
             onClick={handleFlowLayout}
             title="Arrange by flow type columns"
@@ -195,6 +206,10 @@ function Flow() {
       </ReactFlow>
 
       <ToolDetailPanel />
+      <WorkflowPanel
+        isOpen={isWorkflowPanelOpen}
+        onClose={() => setIsWorkflowPanelOpen(false)}
+      />
     </div>
   );
 }
